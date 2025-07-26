@@ -30,7 +30,7 @@ function LoginView() {
       const payload = parseJwt(token);
       if (payload && payload.role) {
         loginContext(token, payload.role);
-        navigate('/success', { replace: true });
+        navigate('/home', { replace: true });
       } else {
         setError('Token inválido.');
       }

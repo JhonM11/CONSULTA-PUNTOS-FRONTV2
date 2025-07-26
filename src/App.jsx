@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginView from './view/LoginView';
 import SuccessView from './view/SuccessView';
+import Home from './view/Home';
 import { AuthProvider, useAuth } from './components/AuthContext';
 
 function AppContent() {
@@ -10,6 +11,7 @@ function AppContent() {
     <Routes>
       <Route path="/auth" element={<LoginView />} />
       <Route path="/success" element={token ? <SuccessView /> : <Navigate to="/auth" replace />} />
+      <Route path="/home" element={token ? <Home /> : <Navigate to="/auth" replace />} />
       <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>
   );

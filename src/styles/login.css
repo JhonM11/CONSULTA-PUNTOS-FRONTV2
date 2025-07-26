@@ -249,27 +249,3 @@ body {
   from { opacity: 0; transform: translateX(40px); }
   to { opacity: 1; transform: translateX(0); }
 }
-
-@media (max-width: 900px) {
-  .login-bg {
-    display: none;
-  }
-  .login-form-wrapper {
-    width: 100vw;
-    max-width: 100vw;
-    min-width: 0;
-    box-shadow: none;
-  }
-  .login-container {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-form {
-    padding: 1.5rem 0.5rem;
-  }
-  .login-title {
-    font-size: 1.4rem;
-  }
-} 
