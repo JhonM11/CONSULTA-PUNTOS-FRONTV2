@@ -32,11 +32,15 @@ function Header() {
     async function fetchUser() {
       try {
         const data = await getUserSession(token);
+        console.log("Datos del usuario:", data);  // Agrega este log para ver la respuesta
         setUser(data);
-      } catch {}
+      } catch (error) {
+        console.error('Error al obtener los datos del usuario', error);
+      }
     }
     if (token) fetchUser();
   }, [token]);
+  
 
   const navOptions = user && NAV_OPTIONS[user.role] ? NAV_OPTIONS[user.role] : [];
   const userLabel = user ? `${capitalize(user.name)} ${capitalize(user.lastname)}` : '';
