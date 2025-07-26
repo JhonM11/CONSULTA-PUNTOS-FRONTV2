@@ -70,20 +70,64 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 }
 
-.login-input {
-  padding: 0.75rem 1rem;
+.login-label input {
+  padding: 1.2rem 1rem 0.6rem 1rem;
   border: 1px solid #387ADB;
   border-radius: 8px;
   background: #f7f9fa;
   color: #212529;
   font-size: 1rem;
   outline: none;
-  transition: border 0.2s;
+  transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+  box-shadow: 0 2px 8px 0 rgba(56, 122, 219, 0.04);
 }
-.login-input:focus {
-  border: 1.5px solid #387ADB;
+.login-label input:focus {
+  border: 2px solid #387ADB;
+  background: #eaf2fb;
+  box-shadow: 0 4px 16px 0 rgba(56, 122, 219, 0.10);
+}
+
+.login-label input::placeholder {
+  color: #888;
+  opacity: 1;
+  transition: color 0.2s;
+}
+
+.login-label input:focus::placeholder {
+  color: #387ADB;
+  opacity: 1;
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: 1.2rem;
+  top: 1.3rem;
+  font-size: 1rem;
+  color: #888;
+  background: transparent;
+  transition: all 0.2s, color 0.2s;
+}
+
+.login-label input:focus + .floating-label,
+.login-label input:not(:placeholder-shown) + .floating-label {
+  top: 0.4rem;
+  left: 1rem;
+  font-size: 0.85rem;
+  color: #387ADB;
+  background: #eaf2fb;
+  padding: 0 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s, color 0.2s;
+}
+
+/* Ajuste para inputs con error */
+.login-label input:invalid {
+  border-color: #387ADB;
+  box-shadow: 0 2px 8px 0 rgba(56, 122, 219, 0.08);
 }
 
 .login-button {
@@ -118,6 +162,40 @@ body {
   text-align: center;
 }
 
+.login-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.login-spinner-circle {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #387ADB;
+  border-top: 4px solid #DFDFDF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.login-spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
 .login-footer {
   width: 100vw;
   background: #000;
@@ -131,6 +209,45 @@ body {
   z-index: 10;
   letter-spacing: 0.5px;
   opacity: 0.92;
+}
+
+.notification-globo {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  min-width: 260px;
+  max-width: 340px;
+  background: rgba(223, 89, 102, 0.95);
+  color: #fff;
+  border-left: 4px solid #DF5966;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px 0 rgba(33,37,41,0.10);
+  padding: 1rem 2.5rem 1rem 1.2rem;
+  font-size: 1rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  animation: fadeInRight 0.4s;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-left: auto;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.notification-close:hover {
+  opacity: 1;
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @media (max-width: 900px) {

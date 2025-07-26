@@ -3,7 +3,7 @@ import '../styles/login.css';
 
 function Footer() {
   return (
-    <footer className="login-footer">By John Morales© Since 2024</footer>
+    <footer className="login-footer">By John Morales© Since 2024 - v2</footer>
   );
 }
 

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import { login } from '../services/authService';
 import '../styles/login.css';
 import backgroundImg from '../assets/background.png';
 import Footer from '../components/Footer';
+import { useAuth } from '../components/AuthContext';
+import Notification from '../components/Notification';
 
 function parseJwt(token) {
   try {
@@ -16,6 +19,8 @@ function parseJwt(token) {
 function LoginView() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { login: loginContext } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (username, password) => {
     setLoading(true);
@@ -24,34 +29,39 @@ function LoginView() {
       const { token } = await login(username, password);
       const payload = parseJwt(token);
       if (payload && payload.role) {
-        localStorage.setItem('token', token);
-        // Redirección según el rol
-        if (payload.role === 'admin') {
-          window.location.href = '/admin';
-        } else if (payload.role === 'user') {
-          window.location.href = '/user';
-        } else {
-          window.location.href = '/';
-        }
+        loginContext(token, payload.role);
+        navigate('/success', { replace: true });
       } else {
         setError('Token inválido.');
       }
     } catch (e) {
-      setError(e.message);
+      if (e.message === 'Failed to fetch') {
+        setError('El servicio no está actualmente disponible');
+      } else {
+        setError(e.message);
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCloseNotification = () => setError(null);
+
   return (
     <div className="login-container">
+      <Notification message={error} onClose={handleCloseNotification} />
       <div className="login-bg" style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        {/* Fondo decorativo minimalista */}
         <div className="login-bg-decor" />
       </div>
-      <div className="login-form-wrapper">
-        <LoginForm onSubmit={handleLogin} error={error} />
-        {loading && <div className="login-loading">Cargando...</div>}
+      <div className="login-form-wrapper" style={{ position: 'relative' }}>
+        <LoginForm onSubmit={handleLogin} error={null} />
+        {loading && (
+          <div className="login-spinner-overlay">
+            <div className="login-spinner">
+              <div className="login-spinner-circle" />
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </div>
