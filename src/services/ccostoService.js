@@ -50,3 +50,27 @@ export const getAllCcosto = async (token) => {
     }
   };
   
+
+
+  export const updateNameCcosto = async (token, code, newname) => {
+    try {
+      const url = `${CCOSTO_UPDATE}${code}?newName=${encodeURIComponent(newname)}`
+  
+      const response = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+  
+      if (!response.ok) {
+        throw new Error("Error modificar el nombre del Centro de Costo")
+      }
+  
+      return await response.json()
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  };
+  
