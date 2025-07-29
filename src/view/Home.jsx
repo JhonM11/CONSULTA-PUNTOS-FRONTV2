@@ -1,23 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Profile from '../components/Profile';  // Importamos el componente Profile
+import Profile from '../components/Profile';
 import '../styles/home.css';
 
 function Home() {
-  const [currentView, setCurrentView] = useState(null);  // Estado para gestionar la vista actual
+  const [currentView, setCurrentView] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Función que maneja el cambio de vista
+  // Cuando se hace clic en un elemento del menú
   const handleMenuClick = (view) => {
-    setCurrentView(view);  // Actualizamos el estado para cambiar la vista
+    setCurrentView(view);
+    navigate(`/home/${view}`); // Actualiza la URI del navegador
   };
+
+  // Leer la URL inicial y actualizar el estado en consecuencia
+  useEffect(() => {
+    const pathView = location.pathname.split('/')[2]; // Ej: 'profile'
+    if (pathView) {
+      setCurrentView(pathView);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="home-container">
-      <Header onMenuClick={handleMenuClick} />  {/* Pasamos la función de cambio de vista */}
+      <Header onMenuClick={handleMenuClick} />
       <main className={`home-main-content ${currentView === null ? 'default-background' : ''}`}>
-        {currentView === 'profile' && <Profile />}  {/* Cargamos el componente Profile cuando se selecciona "Perfil" */}
-        {/* Agregar más condiciones aquí para otros componentes según se haga clic */}
+        {currentView === 'profile' && <Profile />}
+        {/* Puedes seguir agregando más vistas así */}
       </main>
       <Footer />
     </div>

@@ -11,7 +11,7 @@ function AppContent() {
     <Routes>
       <Route path="/auth" element={<LoginView />} />
       <Route path="/success" element={token ? <SuccessView /> : <Navigate to="/auth" replace />} />
-      <Route path="/home" element={token ? <Home /> : <Navigate to="/auth" replace />} />
+      <Route path="/home/*" element={token ? <Home /> : <Navigate to="/auth" replace />} />
       <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>
   );

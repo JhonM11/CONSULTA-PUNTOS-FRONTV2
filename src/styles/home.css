@@ -273,17 +273,27 @@ html, body {
 
 /* Estilos para el fondo predeterminado antes de carga de componentes */
 .home-main-content {
-  background-image: url('/assets/backgroundApp.png'); /* Ruta de la imagen */
-  background-size: 60% 85%; /* Ajusta el tamaño a 60% de su tamaño original tanto en ancho como en altura */
+  position: relative;
+  z-index: 1;
+}
+
+.home-main-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/src/assets/backgroundApp.png');
+  background-size: 60% 85%;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  opacity: 0; /* Inicialmente oculto */
-  transition: opacity 1s ease-in-out; /* Transición suave para el desvanecimiento */
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+  z-index: -1; /* para que esté detrás del contenido */
 }
 
-/* Clase que se aplica una vez que se ha cargado la imagen */
-.home-main-content.default-background {
-  background-image: url('/src/assets/backgroundApp.png');
-  opacity: 0.2; /* Hacer visible la imagen */
+.home-main-content.default-background::before {
+  opacity: 0.2; /* Solo la imagen será opaca */
 }
