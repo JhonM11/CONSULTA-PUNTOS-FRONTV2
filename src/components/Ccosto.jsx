@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { getAllCcosto, createCcosto, updateNameCcosto } from "../services/ccostoService"
 import { useAuth } from "./AuthContext"
-import { FiEdit2, FiSearch, FiPlus, FiX, FiSave } from "react-icons/fi"
+import { FiEdit2, FiSearch, FiPlus, FiX, FiSave, FiMap } from "react-icons/fi"
 import Notification from "./Notification"
 import '../styles/ccosto.css';
 
@@ -125,6 +125,14 @@ function Ccosto() {
   return (
     <>
       <div className="ccosto-container">
+        {/* Header del título */}
+        <div className="ccosto-title-header">
+          <div className="ccosto-title-content">
+            <FiMap className="ccosto-title-icon" />
+            <h2>Centros de Costos</h2>
+          </div>
+        </div>
+
         {/* Header con barra de búsqueda y botón */}
         <div className="ccosto-header">
           <div className="ccosto-search-bar">
