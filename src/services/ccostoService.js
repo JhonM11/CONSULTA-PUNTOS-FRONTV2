@@ -25,3 +25,28 @@ export const getAllCcosto = async (token) => {
     }
   };
   
+
+
+
+  export const createCcosto = async (token, name) => {
+    try {
+      const url = `${CCOSTO_CREATE}?name=${encodeURIComponent(name)}`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al crear el centro de costo');
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
