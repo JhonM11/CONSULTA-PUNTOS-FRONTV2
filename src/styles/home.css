@@ -297,3 +297,39 @@ html, body {
 .home-main-content.default-background::before {
   opacity: 0.2; /* Solo la imagen será opaca */
 }
+
+
+
+
+/* Ajustar el header-left para acomodar el icono de casa */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el menú hamburguesa y el icono de casa */
+}
+
+/* Responsive para la vista de bienvenida */
+@media (max-width: 900px) {
+  .home-welcome h1 {
+    font-size: 2rem;
+  }
+
+  .home-welcome p {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-welcome h1 {
+    font-size: 1.5rem;
+  }
+
+  .home-welcome p {
+    font-size: 0.9rem;
+  }
+
+  .header-left {
+    gap: 6px; /* Reducir gap en móviles */
+  }
+}
