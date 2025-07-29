@@ -1,12 +1,12 @@
-import { CCOSTO_GET_ALL } from './env';
-import { CCOSTO_FIND_BY_CODE } from './env';
-import { CCOSTO_CREATE } from './env';
+import { ZONA_GET_ALL } from './env';
+import { ZONA_CREATE } from './env';
+import { ZONA_UPDATE_NAME } from './env';
 
 
 
-export const getAllCcosto = async (token) => {
+export const getAllZonas = async (token) => {
     try {
-      const response = await fetch(CCOSTO_GET_ALL, {
+      const response = await fetch(ZONA_GET_ALL, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -14,7 +14,7 @@ export const getAllCcosto = async (token) => {
       });
   
       if (!response.ok) {
-        throw new Error('Error al obtener centros de costos');
+        throw new Error('Error al obtener Zonas');
       }
   
       return await response.json();
@@ -27,9 +27,9 @@ export const getAllCcosto = async (token) => {
 
 
 
-  export const createCcosto = async (token, name) => {
+  export const createZona = async (token, name) => {
     try {
-      const url = `${CCOSTO_CREATE}?name=${encodeURIComponent(name)}`;
+      const url = `${ZONA_CREATE}?name=${encodeURIComponent(name)}`;
       
       const response = await fetch(url, {
         method: 'POST',
@@ -39,7 +39,7 @@ export const getAllCcosto = async (token) => {
       });
   
       if (!response.ok) {
-        throw new Error('Error al crear el centro de costo');
+        throw new Error('Error al crear la zona');
       }
   
       return await response.json();
@@ -51,9 +51,9 @@ export const getAllCcosto = async (token) => {
   
 
 
-  export const updateNameCcosto = async (token, code, newname) => {
+  export const updateNameZona = async (token, code, newname) => {
     try {
-      const url = `${CCOSTO_UPDATE}${code}?newName=${encodeURIComponent(newname)}`
+      const url = `${ZONA_UPDATE_NAME}${code}?newName=${encodeURIComponent(newname)}`
   
       const response = await fetch(url, {
         method: "PATCH",
@@ -63,7 +63,7 @@ export const getAllCcosto = async (token) => {
       })
   
       if (!response.ok) {
-        throw new Error("Error modificar el nombre del Centro de Costo")
+        throw new Error("Error modificar el nombre de la zona")
       }
   
       return await response.json()

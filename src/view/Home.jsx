@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import Profile from "../components/Profile"
 import Ccosto from "../components/Ccosto"
+import Zona from "../components/Zona"
 import "../styles/home.css"
 
 function Home() {
@@ -37,11 +38,16 @@ function Home() {
   return (
     <div className="home-container">
       <Header onMenuClick={handleMenuClick} />
+
+
       <main className={`home-main-content ${currentView === null ? "default-background" : ""}`}>
         {currentView === "profile" && <Profile />}
         {currentView === "ccosto" && <Ccosto />}
+        {currentView === "zonas" && <Zona />}
         {/* Puedes seguir agregando más vistas así */}
       </main>
+
+      
       <Footer />
     </div>
   )

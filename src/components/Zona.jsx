@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import { getAllCcosto, createCcosto, updateNameCcosto } from "../services/ccostoService"
+import { getAllZonas, createZona, updateNameZona } from "../services/zonaServices"
 import { useAuth } from "./AuthContext"
-import { FiEdit2, FiSearch, FiPlus, FiX, FiSave, FiMap } from "react-icons/fi"
+import { FiEdit2, FiSearch, FiPlus, FiX, FiSave, FiMap, FiMapPin } from "react-icons/fi"
 import Notification from "./Notification"
-import '../styles/ccosto.css';
+import '../styles/zona.css';
 
-function Ccosto() {
+function Zona() {
   const { token } = useAuth()
-  const [centros, setCentros] = useState([])
+  const [zonas, setZonas] = useState([])
   const [filtered, setFiltered] = useState([])
   const [search, setSearch] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -21,23 +21,23 @@ function Ccosto() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAllCcosto(token)
-        setCentros(data)
+        const data = await getAllZonas(token)
+        setZonas(data)
         setFiltered(data)
       } catch (err) {
-        console.error("Error al cargar centros de costos", err)
+        console.error("Error al cargar zonas", err)
       }
     }
     if (token) fetchData()
   }, [token])
 
   useEffect(() => {
-    const result = centros.filter(
+    const result = zonas.filter(
       (item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.code.toString().includes(search),
     )
     setFiltered(result)
     setCurrentPage(1)
-  }, [search, centros])
+  }, [search, zonas])
 
   const startIndex = (currentPage - 1) * itemsPerPage
   const paginatedItems = filtered.slice(startIndex, startIndex + itemsPerPage)
@@ -50,18 +50,18 @@ function Ccosto() {
         return
       }
 
-      await createCcosto(token, newName.trim())
+      await createZona(token, newName.trim())
       setNewName("")
       setShowForm(false)
 
-      const data = await getAllCcosto(token)
-      setCentros(data)
+      const data = await getAllZonas(token)
+      setZonas(data)
       setFiltered(data)
 
-      showNotification("Centro de costo creado exitosamente", "success")
+      showNotification("Zona creada exitosamente", "success")
     } catch (err) {
-      console.error("Error al crear centro de costo", err)
-      showNotification("Error al crear el centro de costo", "error")
+      console.error("Error al crear zona", err)
+      showNotification("Error al crear la zona", "error")
     }
   }
 
@@ -74,7 +74,7 @@ function Ccosto() {
     setShowEditForm(true)
   }
 
-  const handleUpdateCcosto = async () => {
+  const handleUpdateZona = async () => {
     try {
       if (!editData.newName.trim()) {
         showNotification("Por favor ingresa un nombre válido", "warning")
@@ -86,19 +86,19 @@ function Ccosto() {
         return
       }
 
-      await updateNameCcosto(token, editData.code, editData.newName.trim())
+      await updateNameZona(token, editData.code, editData.newName.trim())
 
       setEditData({ code: "", name: "", newName: "" })
       setShowEditForm(false)
 
-      const data = await getAllCcosto(token)
-      setCentros(data)
+      const data = await getAllZonas(token)
+      setZonas(data)
       setFiltered(data)
 
-      showNotification("Centro de costo actualizado exitosamente", "success")
+      showNotification("Zona actualizada exitosamente", "success")
     } catch (err) {
-      console.error("Error al actualizar centro de costo", err)
-      showNotification("Error al actualizar el centro de costo", "error")
+      console.error("Error al actualizar zona", err)
+      showNotification("Error al actualizar la zona", "error")
     }
   }
 
@@ -126,8 +126,8 @@ function Ccosto() {
         {/* Header del título */}
         <div className="ccosto-title-header">
           <div className="ccosto-title-content">
-            <FiMap className="ccosto-title-icon" />
-            <h2>Centros de Costos</h2>
+            <FiMapPin className="ccosto-title-icon" />
+            <h2>Zonas</h2>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ function Ccosto() {
               />
             </div>
           </div>
-          <button className="ccosto-add-btn" onClick={() => setShowForm(!showForm)} title="Crear nuevo centro de costo">
+          <button className="ccosto-add-btn" onClick={() => setShowForm(!showForm)} title="Crear nueva zona">
             <FiPlus />
           </button>
         </div>
@@ -154,7 +154,7 @@ function Ccosto() {
           <div className="ccosto-form-overlay">
             <div className="ccosto-form">
               <div className="ccosto-form-header">
-                <span>Crear Centro de Costo</span>
+                <span>Crear Zona</span>
                 <button className="ccosto-close-btn" onClick={handleCloseForm}>
                   <FiX />
                 </button>
@@ -163,7 +163,7 @@ function Ccosto() {
                 <input
                   type="text"
                   value={newName}
-                  placeholder="Nombre del centro de costo"
+                  placeholder="Nombre de la zona"
                   onChange={(e) => setNewName(e.target.value.toUpperCase())}
                   className="ccosto-form-input"
                 />
@@ -185,7 +185,7 @@ function Ccosto() {
           <div className="ccosto-form-overlay">
             <div className="ccosto-form">
               <div className="ccosto-form-header">
-                <span>Editar Centro de Costo</span>
+                <span>Editar Zona</span>
                 <button className="ccosto-close-btn" onClick={handleCloseEditForm}>
                   <FiX />
                 </button>
@@ -194,7 +194,7 @@ function Ccosto() {
                 <input
                   type="text"
                   value={editData.newName}
-                  placeholder="Nombre del centro de costo"
+                  placeholder="Nombre de la zona"
                   onChange={(e) => setEditData({ ...editData, newName: e.target.value.toUpperCase() })}
                   className="ccosto-form-input"
                 />
@@ -202,7 +202,7 @@ function Ccosto() {
                   <button className="ccosto-cancel-btn" onClick={handleCloseEditForm}>
                     Cancelar
                   </button>
-                  <button className="ccosto-save-btn" onClick={handleUpdateCcosto}>
+                  <button className="ccosto-save-btn" onClick={handleUpdateZona}>
                     <FiSave /> Actualizar
                   </button>
                 </div>
@@ -284,4 +284,4 @@ function Ccosto() {
   )
 }
 
-export default Ccosto
+export default Zona

@@ -18,3 +18,14 @@ export const CCOSTO_FIND_BY_CODE = `${API_BASE_URL}/centros-costos/findByCode/`;
 export const CCOSTO_UPDATE = `${API_BASE_URL}/centros-costos/updateName/`;
 
 export const CCOSTO_CREATE = `${API_BASE_URL}/centros-costos/create`;
+
+
+/* ENDPOINT ZONAS */
+
+export const ZONA_GET_ALL = `${API_BASE_URL}/zonas/getAll`;
+
+export const ZONA_CREATE = `${API_BASE_URL}/zonas/create`;
+
+export const ZONA_UPDATE_NAME = `${API_BASE_URL}/zonas/updateName/`;
+
+export const ZONA_UPDATE_BY_CODE = `${API_BASE_URL}/zonas/findByCode/`;
