@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Profile from '../components/Profile';
+import Ccosto from '../components/Ccosto';
+
 import '../styles/home.css';
 
 function Home() {
@@ -29,6 +31,7 @@ function Home() {
       <Header onMenuClick={handleMenuClick} />
       <main className={`home-main-content ${currentView === null ? 'default-background' : ''}`}>
         {currentView === 'profile' && <Profile />}
+        {currentView === 'ccosto' && <Ccosto />}
         {/* Puedes seguir agregando más vistas así */}
       </main>
       <Footer />
