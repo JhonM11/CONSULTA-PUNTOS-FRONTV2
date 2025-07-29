@@ -1,0 +1,29 @@
+.notification-globo {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  z-index: 9999;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agregué un poco de sombra para hacerlo más visual */
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}

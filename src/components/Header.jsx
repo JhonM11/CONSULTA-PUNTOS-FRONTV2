@@ -1,49 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './AuthContext';  // Asegúrate de que useAuth maneje el estado de autenticación
 import { getUserSession } from '../services/userService';
 import { FiSettings, FiMenu } from 'react-icons/fi';
 import '../styles/home.css';
 
 const PALE_GRAY = '#f4f6fa';
 
-function capitalize(str) {
-  return str ? str.toUpperCase() : '';
-}
-
+// Definimos las opciones de navegación para cada rol
 const NAV_OPTIONS = {
   ADMIN: [
-    { label: 'Dashboard', href: '#' },
-    { label: 'Usuarios', href: '#' },
-    { label: 'Reportes', href: '#' },
+    { label: 'PUNTOS', href: '#' },
+    { label: 'USUARIOS', href: '#' },
+    { label: 'CONEXIONES', href: '#' },
+    { label: 'ZONAS', href: '#' },
+    { label: 'CENTROS DE COSTO', href: '#' },
+    { label: 'REPORTES', href: '#' },
+    { label: 'CARGA DE ARCHIVOS', href: '#' },
   ],
-  USER: [
-    { label: 'Inicio', href: '#' },
-    { label: 'Mi Perfil', href: '#' },
+  COORDINADOR: [
+    { label: 'PUNTOS', href: '#' },
+    { label: 'USUARIOS', href: '#' },
+    { label: 'CONEXIONES', href: '#' },
+    { label: 'ZONAS', href: '#' },
+    { label: 'CENTROS DE COSTO', href: '#' },
+  ],
+  AUXILIAR: [
+    { label: 'PUNTOS', href: '#' },
   ],
 };
 
-function Header() {
+function Header({ onMenuClick }) {
   const { token, logout } = useAuth();
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [asideOpen, setAsideOpen] = useState(false);
 
+  // Fetch de datos del usuario y guardarlos en el estado
   useEffect(() => {
     async function fetchUser() {
       try {
         const data = await getUserSession(token);
-        console.log("Datos del usuario:", data);  // Agrega este log para ver la respuesta
-        setUser(data);
+        console.log("Datos del usuario:", data);
+        setUser(data);  // Guardamos los datos del usuario
       } catch (error) {
         console.error('Error al obtener los datos del usuario', error);
       }
     }
     if (token) fetchUser();
   }, [token]);
-  
 
+  // Obtenemos las opciones del menú según el rol del usuario
   const navOptions = user && NAV_OPTIONS[user.role] ? NAV_OPTIONS[user.role] : [];
-  const userLabel = user ? `${capitalize(user.name)} ${capitalize(user.lastname)}` : '';
+  const userLabel = user ? `${user.name.toUpperCase()} ${user.lastname.toUpperCase()}` : '';
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    sessionStorage.removeItem('authToken');  // O localStorage.removeItem('authToken')
+    logout();  // Llama a la función logout que actualiza el contexto
+  };
+
+  // Función que maneja el clic en la opción "Perfil"
+  const handleProfileClick = () => {
+    onMenuClick('profile');  // Llamamos a onMenuClick con 'profile' para cargar el componente Profile
+    setAsideOpen(false);  // Cerramos el menú al hacer clic en perfil
+    setDropdownOpen(false); // Cierra el dropdown del engranaje
+  };
+
+  // Cerrar sesión cuando la ventana/pestaña se cierra
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem('authToken');  // O localStorage.removeItem('authToken')
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <header className="home-header">
@@ -71,8 +105,10 @@ function Header() {
             </button>
             {dropdownOpen && (
               <div className="header-dropdown">
-                <a href="#" className="header-dropdown-link">Perfil</a>
-                <button className="header-dropdown-link" onClick={logout}>Cerrar sesión</button>
+                <a href="#" className="header-dropdown-link" onClick={handleProfileClick}>
+                  Perfil
+                </a>
+                <button className="header-dropdown-link" onClick={handleLogout}>Cerrar sesión</button>
               </div>
             )}
           </div>
@@ -94,4 +130,4 @@ function Header() {
   );
 }
 
-export default Header; 
+export default Header;

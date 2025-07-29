@@ -1,0 +1,159 @@
+/* Contenedor principal del perfil */
+.profile-container {
+  background-color: #f4f6fa;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(33, 37, 41, 0.1);
+  margin: 2rem 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Titulo del perfil */
+.profile-container h2 {
+  font-size: 2rem;
+  color: #212529;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Estilo para el contenedor de los detalles */
+.profile-details {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(33, 37, 41, 0.1);
+  color: #212529;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  gap: 1.5rem; /* Espacio entre las columnas */
+}
+
+/* Estilo para cada una de las líneas de detalle (nombre, correo, etc.) */
+.profile-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-item label {
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.profile-item input {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  color: #6c757d;
+  background-color: #f1f3f5;
+  cursor: not-allowed;
+  transition: border-color 0.3s;
+}
+
+.profile-item input:focus {
+  outline: none;
+  border-color: #387adb;
+}
+
+/* Estilo mientras se carga el contenido */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+/* Botón para cambiar la contraseña */
+.change-password-btn {
+  display: block;
+  background-color: #28a745;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  margin-top: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.change-password-btn:hover {
+  background-color: #218838;
+}
+
+/* Modal de cambio de contraseña */
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.password-modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(33, 37, 41, 0.1);
+  width: 400px;
+  position: relative;
+}
+
+.password-modal-content h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.password-modal-content input {
+  width: 93%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.save-password-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-password-btn:hover {
+  background-color: #218838;
+}
+
+/* Botón para cerrar el modal */
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #387adb;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-modal-btn:hover {
+  opacity: 0.8;
+}
