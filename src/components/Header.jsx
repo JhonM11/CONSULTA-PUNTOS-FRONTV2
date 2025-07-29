@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useAuth } from "./AuthContext"
 import { getUserSession } from "../services/userService"
-import { FiSettings, FiMenu, FiHome } from "react-icons/fi"
+import { FiSettings, FiMenu, FiHome, FiUser, FiLogOut } from "react-icons/fi"
 import "../styles/home.css"
 
 const NAV_OPTIONS = {
@@ -149,10 +149,12 @@ function Header({ onMenuClick }) {
             {dropdownOpen && (
               <div className="header-dropdown">
                 <a href="#" className="header-dropdown-link" onClick={handleProfileClick}>
-                  Perfil
+                  <FiUser size={16} />
+                  <span>Perfil</span>
                 </a>
                 <button className="header-dropdown-link" onClick={handleLogout}>
-                  Cerrar sesión
+                  <FiLogOut size={16} />
+                  <span>Cerrar sesión</span>
                 </button>
               </div>
             )}

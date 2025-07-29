@@ -333,3 +333,41 @@ html, body {
     gap: 6px; /* Reducir gap en móviles */
   }
 }
+
+
+
+
+/* Estilos para los iconos en el dropdown (Engranaje)*/
+.header-dropdown-link {
+  color: #387adb;
+  text-decoration: none;
+  padding: 0.8rem 1.2rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem; /* Espacio entre icono y texto */
+}
+
+.header-dropdown-link:hover {
+  background: #f4f6fa;
+}
+
+.header-dropdown-link span {
+  flex: 1; /* Para que el texto ocupe el espacio restante */
+}
+
+/* Asegurar que los iconos tengan el color correcto */
+.header-dropdown-link svg {
+  color: #387adb;
+  flex-shrink: 0; /* Evitar que el icono se comprima */
+}
+
+/* Mantener el color del icono en hover */
+.header-dropdown-link:hover svg {
+  color: #387adb;
+}
