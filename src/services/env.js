@@ -38,3 +38,12 @@ export const TCONEXIONES_GET_ALL = `${API_BASE_URL}/tipo-conexiones/getAllConnec
 export const TCONEXIONES_CREATE = `${API_BASE_URL}/tipo-conexiones/createTypeConnection`;
 
 export const TCONEXIONES_UPDATE_NAME = `${API_BASE_URL}/tipo-conexiones/updateTypeConnectionByCode/`;
+
+
+/* ENDPOINT PUNTOS */
+
+/*SECCION DE REPORTES*/
+
+export const PUNTOS_REPORTS_FORMAT_EXCEL = `${API_BASE_URL}/reports`;
+
+export const PUNTOS_REPORTS_FORMAT_ANSIBLE = `${API_BASE_URL}/reports-FormatAnsible`;
