@@ -19,17 +19,39 @@ function Ccosto() {
   const itemsPerPage = 5
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAndFilter = async () => {
       try {
         const data = await getAllCcosto(token)
+  
+        const result = data.filter(
+          (item) =>
+            item.name.toLowerCase().includes(search.toLowerCase()) ||
+            item.code.toString().includes(search)
+        )
+  
         setCentros(data)
-        setFiltered(data)
+        setFiltered(result)
+        setCurrentPage(1)
       } catch (err) {
-        console.error("Error al cargar centros de costos", err)
+        console.error("Error al buscar centros de costos", err)
       }
     }
-    if (token) fetchData()
-  }, [token])
+  
+    if (search.trim() !== "" && token) {
+      fetchAndFilter()
+    } else if (token) {
+      getAllCcosto(token)
+        .then(data => {
+          setCentros(data)
+          setFiltered(data)
+          setCurrentPage(1)
+        })
+        .catch(err => {
+          console.error("Error al cargar centros de costos", err)
+        })
+    }
+  }, [search, token])
+  
 
   useEffect(() => {
     const result = centros.filter(

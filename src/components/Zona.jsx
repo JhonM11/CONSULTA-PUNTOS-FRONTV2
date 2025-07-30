@@ -32,12 +32,39 @@ function Zona() {
   }, [token])
 
   useEffect(() => {
-    const result = zonas.filter(
-      (item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.code.toString().includes(search),
-    )
-    setFiltered(result)
-    setCurrentPage(1)
-  }, [search, zonas])
+    const fetchAndFilter = async () => {
+      try {
+        const data = await getAllZonas(token)
+  
+        const result = data.filter(
+          (item) =>
+            item.name.toLowerCase().includes(search.toLowerCase()) ||
+            item.code.toString().includes(search)
+        )
+  
+        setZonas(data)
+        setFiltered(result)
+        setCurrentPage(1)
+      } catch (err) {
+        console.error("Error al buscar zonas", err)
+      }
+    }
+  
+    if (search.trim() !== "" && token) {
+      fetchAndFilter()
+    } else if (token) {
+      getAllZonas(token)
+        .then(data => {
+          setZonas(data)
+          setFiltered(data)
+          setCurrentPage(1)
+        })
+        .catch(err => {
+          console.error("Error al cargar zonas", err)
+        })
+    }
+  }, [search, token])
+  
 
   const startIndex = (currentPage - 1) * itemsPerPage
   const paginatedItems = filtered.slice(startIndex, startIndex + itemsPerPage)

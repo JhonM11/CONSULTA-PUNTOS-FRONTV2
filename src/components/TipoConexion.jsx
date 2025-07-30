@@ -32,12 +32,38 @@ function TipoConexion() {
   }, [token])
 
   useEffect(() => {
-    const result = tipos.filter(
-      (item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.code.toString().includes(search),
-    )
-    setFiltered(result)
-    setCurrentPage(1)
-  }, [search, tipos])
+    const fetchAndFilter = async () => {
+      try {
+        const data = await getAllTipoConexiones(token)
+  
+        const result = data.filter(
+          (item) =>
+            item.name.toLowerCase().includes(search.toLowerCase()) ||
+            item.code.toString().includes(search)
+        )
+  
+        setTipos(data)         // Refresca la lista base también
+        setFiltered(result)    // Aplica el filtro
+        setCurrentPage(1)
+      } catch (err) {
+        console.error("Error al buscar tipos de conexión", err)
+      }
+    }
+  
+    if (search.trim() !== "" && token) {
+      fetchAndFilter()
+    } else if (token) {
+      // Si el campo de búsqueda se limpia, restablece todo
+      getAllTipoConexiones(token).then(data => {
+        setTipos(data)
+        setFiltered(data)
+        setCurrentPage(1)
+      }).catch(err => {
+        console.error("Error al cargar tipos de conexión", err)
+      })
+    }
+  }, [search, token])
+  
 
   const startIndex = (currentPage - 1) * itemsPerPage
   const paginatedItems = filtered.slice(startIndex, startIndex + itemsPerPage)
