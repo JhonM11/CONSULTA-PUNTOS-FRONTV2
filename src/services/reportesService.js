@@ -42,3 +42,58 @@ export const getReportExcel = async (token, { tipoConexionCode = '', zonaCode = 
     }
   }
   
+
+
+  
+
+
+
+  export const getReportFormatAnsible = async (
+    token,
+    {
+      centroCostoCode = '',
+      zonaCode = '',
+      filename = '',
+      tipoConexionCode = '',
+    } = {}
+  ) => {
+    try {
+      // Construcción dinámica de los parámetros
+      const params = new URLSearchParams()
+      if (centroCostoCode) params.append('centroCostoCode', centroCostoCode)
+      if (zonaCode) params.append('zonaCode', zonaCode)
+      if (filename) params.append('filename', filename)
+      if (tipoConexionCode) params.append('tipoConexionCode', tipoConexionCode)
+  
+      const url = `${PUNTOS_REPORTS_FORMAT_ANSIBLE}?${params.toString()}`
+  
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+  
+      if (!response.ok) {
+        throw new Error('Error al generar o descargar el archivo Ansible')
+      }
+  
+      const blob = await response.blob()
+  
+      // Usar el nombre proporcionado o uno por defecto
+      const resolvedFilename = filename?.trim() ? `${filename}.txt` : 'reporte_ansible.txt'
+  
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+      link.download = resolvedFilename
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      window.URL.revokeObjectURL(downloadUrl)
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+  

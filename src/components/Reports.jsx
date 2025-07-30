@@ -7,6 +7,7 @@ import { getAllCcosto } from "../services/ccostoService"
 import { getReportExcel } from "../services/reportesService"
 import Notification from "./Notification"
 import ReportExcel from "./ReportExcel"
+import ReportFormatAnsible from "./ReportFormatAnsible"
 import "../styles/reports.css"
 
 function Reports() {
@@ -42,10 +43,10 @@ function Reports() {
       component: ReportExcel,
     },
     {
-      id: "prueba",
-      title: "Prueba",
-      description: "Reporte de prueba (próximamente)",
-      disabled: true,
+      id: "format-ansible",
+      title: "Reporte formato Ansible",
+      description: "Generar archivo de directorios de puntoss en formato Ansible",
+      component: ReportFormatAnsible,
     },
   ]
 
