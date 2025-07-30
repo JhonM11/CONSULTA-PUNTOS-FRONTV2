@@ -1,0 +1,433 @@
+.ccosto-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  
+  /* Header del título */
+  .ccosto-title-header {
+    margin-bottom: 24px;
+  }
+  
+  .ccosto-title-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .ccosto-title-icon {
+    font-size: 28px;
+    color: #3b82f6;
+  }
+  
+  .ccosto-title-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+  }
+  
+  /* Header con barra de búsqueda y botón */
+  .ccosto-header {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    align-items: center;
+  }
+  
+  .ccosto-search-bar {
+    flex: 1;
+  }
+  
+  .ccosto-search-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .ccosto-search-wrapper input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 2px solid #ebe5e5;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+    box-sizing: border-box;
+  }
+  
+  .ccosto-search-wrapper input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .ccosto-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-size: 16px;
+    pointer-events: none;
+  }
+  
+  .ccosto-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 43px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  
+  .ccosto-add-btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  .ccosto-add-btn:active {
+    transform: translateY(0);
+  }
+  
+  /* Formulario flotante */
+  .ccosto-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .ccosto-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 90%;
+    max-width: 450px;
+    animation: slideIn 0.3s ease;
+  }
+  
+  .ccosto-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .ccosto-form-header span {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .ccosto-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    color: #6b7280;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .ccosto-close-btn:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+  
+  .ccosto-form-body {
+    padding: 24px;
+  }
+  
+  .ccosto-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  
+  .ccosto-form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .ccosto-form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  
+  .ccosto-cancel-btn {
+    padding: 10px 20px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .ccosto-cancel-btn:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  
+  .ccosto-save-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .ccosto-save-btn:hover {
+    background-color: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  /* Tabla */
+  .ccosto-table-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+  }
+  
+  .ccosto-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .ccosto-table thead {
+    background-color: #f9fafb;
+  }
+  
+  .ccosto-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .ccosto-table td {
+    padding: 11px 15px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #111827;
+    font-size: 14px;
+  }
+  
+  .ccosto-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+  
+  .ccosto-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .ccosto-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .ccosto-edit-btn:hover {
+    background-color: #e5e7eb;
+    color: #374151;
+    transform: translateY(-1px);
+  }
+  
+  .ccosto-empty {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 40px 20px !important;
+  }
+  
+  /* Paginación */
+  .ccosto-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .ccosto-pagination-btn {
+    padding: 8px 16px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .ccosto-pagination-btn:hover:not(:disabled) {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  
+  .ccosto-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .ccosto-pagination-numbers {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .ccosto-pagination-number {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .ccosto-pagination-number:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  
+  .ccosto-pagination-number.active {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .ccosto-container {
+      padding: 16px;
+    }
+  
+    .ccosto-title-header h2 {
+      font-size: 20px;
+    }
+  
+    .ccosto-header {
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    .ccosto-add-btn {
+      width: 100%;
+      height: 48px;
+    }
+  
+    .ccosto-table-container {
+      overflow-x: auto;
+    }
+  
+    .ccosto-table {
+      min-width: 500px;
+    }
+  
+    .ccosto-pagination {
+      flex-wrap: wrap;
+    }
+  
+    .ccosto-form {
+      margin: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ccosto-title-header h2 {
+      font-size: 18px;
+    }
+  
+    .ccosto-title-icon {
+      font-size: 24px;
+    }
+  
+    .ccosto-table th,
+    .ccosto-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+  
+    .ccosto-pagination-numbers {
+      max-width: 200px;
+      overflow-x: auto;
+    }
+  }
+  

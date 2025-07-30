@@ -29,3 +29,12 @@ export const ZONA_CREATE = `${API_BASE_URL}/zonas/create`;
 export const ZONA_UPDATE_NAME = `${API_BASE_URL}/zonas/updateName/`;
 
 export const ZONA_UPDATE_BY_CODE = `${API_BASE_URL}/zonas/findByCode/`;
+
+
+/* ENDPOINT TIPO CONEXIONES */
+
+export const TCONEXIONES_GET_ALL = `${API_BASE_URL}/tipo-conexiones/getAllConnection`;
+
+export const TCONEXIONES_CREATE = `${API_BASE_URL}/tipo-conexiones/createTypeConnection`;
+
+export const TCONEXIONES_UPDATE_NAME = `${API_BASE_URL}/tipo-conexiones/updateTypeConnectionByCode/`;

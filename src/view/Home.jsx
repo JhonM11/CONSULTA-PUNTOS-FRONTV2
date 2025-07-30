@@ -5,7 +5,9 @@ import Footer from "../components/Footer"
 import Profile from "../components/Profile"
 import Ccosto from "../components/Ccosto"
 import Zona from "../components/Zona"
+import TipoConexion from "../components/TipoConexion"
 import "../styles/home.css"
+
 
 function Home() {
   const [currentView, setCurrentView] = useState(null)
@@ -44,6 +46,7 @@ function Home() {
         {currentView === "profile" && <Profile />}
         {currentView === "ccosto" && <Ccosto />}
         {currentView === "zonas" && <Zona />}
+        {currentView === "conexiones" && <TipoConexion />}
         {/* Puedes seguir agregando más vistas así */}
       </main>
 
