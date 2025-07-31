@@ -7,6 +7,7 @@ import Ccosto from "../components/Ccosto"
 import Zona from "../components/Zona"
 import TipoConexion from "../components/TipoConexion"
 import Report from "../components/Reports"
+import LoadFile from "../components/LoadFile"
 import "../styles/home.css"
 
 
@@ -49,6 +50,8 @@ function Home() {
         {currentView === "zonas" && <Zona />}
         {currentView === "conexiones" && <TipoConexion />}
         {currentView === "reportes" && <Report />}
+        {currentView === "LoadFile" && <LoadFile />}
+        
         
         {/* Puedes seguir agregando más vistas así */}
       </main>

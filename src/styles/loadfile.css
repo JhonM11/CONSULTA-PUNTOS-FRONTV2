@@ -1,0 +1,470 @@
+.loadfile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header con título y botón */
+.loadfile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.loadfile-title-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loadfile-title-icon {
+  font-size: 28px;
+  color: #3b82f6;
+}
+
+.loadfile-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.loadfile-template-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.loadfile-template-btn:hover:not(:disabled) {
+  background-color: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.loadfile-template-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.loadfile-template-icon {
+  font-size: 16px;
+}
+
+.loadfile-template-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Área de carga de archivo */
+.loadfile-drop-area {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+  margin-bottom: 24px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadfile-drop-area:hover {
+  border-color: #3b82f6;
+  background-color: #f0f9ff;
+}
+
+.loadfile-drop-area.drag-over {
+  border-color: #3b82f6;
+  background-color: #dbeafe;
+  transform: scale(1.02);
+}
+
+.loadfile-drop-area.has-file {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.loadfile-drop-area.uploading {
+  animation: loadfile-breathe 2s infinite ease-in-out;
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.loadfile-input-hidden {
+  display: none;
+}
+
+.loadfile-drop-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin: 16px 0 8px 0;
+}
+
+.loadfile-drop-content p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 16px 0;
+}
+
+.loadfile-drop-icon {
+  font-size: 48px;
+  color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.loadfile-drop-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Contenido cuando hay archivo seleccionado */
+.loadfile-selected-content {
+  width: 100%;
+}
+
+.loadfile-file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.loadfile-file-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loadfile-file-icon {
+  font-size: 24px;
+  color: #10b981;
+}
+
+.loadfile-file-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.loadfile-file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.loadfile-file-size {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.loadfile-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loadfile-remove-btn:hover {
+  background-color: #fecaca;
+  transform: scale(1.1);
+}
+
+.loadfile-remove-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.loadfile-remove-btn:disabled:hover {
+  background-color: #fef3c7;
+  transform: none;
+}
+
+/* Barra de progreso */
+.loadfile-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loadfile-progress-bar {
+  flex: 1;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.loadfile-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 50%, #10b981 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  animation: loadfile-progressGlow 1.5s infinite;
+}
+
+.loadfile-progress-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  min-width: 40px;
+}
+
+@keyframes progressShimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes loadfile-progressGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Sección de botón de carga */
+.loadfile-upload-section {
+  display: flex;
+  justify-content: center;
+}
+
+.loadfile-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.loadfile-upload-btn:hover:not(:disabled) {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.loadfile-upload-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  animation: loadfile-pulse 2s infinite;
+}
+
+.loadfile-upload-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadfile-upload-animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadfile-dots {
+  display: flex;
+  gap: 4px;
+  margin-right: 8px;
+}
+
+.loadfile-dots span {
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  animation: loadfile-bounce 1.4s infinite ease-in-out both;
+}
+
+.loadfile-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loadfile-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.loadfile-dots span:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes loadfile-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes loadfile-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes loadfile-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.01);
+    opacity: 0.9;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loadfile-container {
+    padding: 16px;
+  }
+
+  .loadfile-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .loadfile-title-content {
+    justify-content: center;
+  }
+
+  .loadfile-template-btn {
+    justify-content: center;
+  }
+
+  .loadfile-drop-area {
+    padding: 32px 16px;
+    min-height: 160px;
+  }
+
+  .loadfile-drop-icon {
+    font-size: 36px;
+  }
+
+  .loadfile-drop-content h3 {
+    font-size: 16px;
+  }
+
+  .loadfile-file-info {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .loadfile-file-details {
+    justify-content: center;
+  }
+
+  .loadfile-remove-btn {
+    align-self: center;
+  }
+
+  .loadfile-upload-btn {
+    min-width: 100%;
+    padding: 14px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loadfile-header h2 {
+    font-size: 20px;
+  }
+
+  .loadfile-title-icon {
+    font-size: 24px;
+  }
+
+  .loadfile-drop-area {
+    padding: 24px 12px;
+  }
+
+  .loadfile-drop-content h3 {
+    font-size: 14px;
+  }
+
+  .loadfile-drop-content p {
+    font-size: 12px;
+  }
+
+  .loadfile-template-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}

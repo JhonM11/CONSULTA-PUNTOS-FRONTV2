@@ -47,3 +47,11 @@ export const TCONEXIONES_UPDATE_NAME = `${API_BASE_URL}/tipo-conexiones/updateTy
 export const PUNTOS_REPORTS_FORMAT_EXCEL = `${API_BASE_URL}/reports`;
 
 export const PUNTOS_REPORTS_FORMAT_ANSIBLE = `${API_BASE_URL}/reports-FormatAnsible`;
+
+/*SECCION DE CARGA DE ARCHIVOS*/
+
+export const PUNTOS_LOAD_FILE = `${API_BASE_URL}/upload-excel`;
+
+/*SECCION DE DESCARGA DE PLANTILLAS*/
+
+export const PUNTOS_DOWNLOAD_TEMPLATE = `${API_BASE_URL}/download-template`;

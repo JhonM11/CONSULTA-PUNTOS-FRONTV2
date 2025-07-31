@@ -40,7 +40,7 @@ const mapLabelToView = (label) => {
     case "REPORTES":
       return "reportes"
     case "CARGA DE ARCHIVOS":
-      return "carga-archivos"
+      return "LoadFile"
     default:
       return null
   }
