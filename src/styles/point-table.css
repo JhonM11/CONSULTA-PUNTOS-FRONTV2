@@ -1,0 +1,238 @@
+/* Tabla */
+.point-table-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+  }
+  
+  .point-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .point-table thead {
+    background-color: #f9fafb;
+  }
+  
+  .point-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .point-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #111827;
+    font-size: 14px;
+  }
+  
+  .point-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+  
+  .point-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .point-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .point-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: #dbeafe;
+    color: #3b82f6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .point-edit-btn:hover {
+    background-color: #bfdbfe;
+    transform: translateY(-1px);
+  }
+  
+  .point-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .point-delete-btn:hover {
+    background-color: #fecaca;
+    transform: translateY(-1px);
+  }
+  
+  /* Botón de detalles */
+  .point-detail-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background-color: #f3e8ff;
+    color: #8b5cf6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .point-detail-btn:hover {
+    background-color: #e9d5ff;
+    transform: translateY(-1px);
+  }
+  
+  .point-empty {
+    text-align: center;
+    color: #6b7280;
+    font-style: italic;
+    padding: 40px 20px !important;
+  }
+  
+  /* Paginación */
+  .point-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .point-pagination-btn {
+    padding: 8px 16px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .point-pagination-btn:hover:not(:disabled) {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  
+  .point-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .point-pagination-numbers {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .point-pagination-number {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .point-pagination-number:hover {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+  }
+  
+  .point-pagination-number.active {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+  }
+  
+  /* Estilos para SweetAlert2 */
+  .point-swal-popup {
+    border-radius: 12px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+  
+  .point-swal-title {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+  }
+  
+  .point-swal-content {
+    font-size: 14px !important;
+  }
+  
+  .point-swal-confirm {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    padding: 10px 20px !important;
+  }
+  
+  .point-swal-cancel {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    padding: 10px 20px !important;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .point-table-container {
+      overflow-x: auto;
+    }
+  
+    .point-table {
+      min-width: 800px;
+    }
+  
+    .point-pagination {
+      flex-wrap: wrap;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .point-table th,
+    .point-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+  
+    .point-actions {
+      flex-direction: column;
+      gap: 4px;
+    }
+  
+    .point-edit-btn,
+    .point-delete-btn,
+    .point-detail-btn {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  

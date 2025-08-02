@@ -42,6 +42,17 @@ export const TCONEXIONES_UPDATE_NAME = `${API_BASE_URL}/tipo-conexiones/updateTy
 
 /* ENDPOINT PUNTOS */
 
+
+export const PUNTOS_GET_ALL = `${API_BASE_URL}/list`;
+
+export const PUNTOS_CREATE = `${API_BASE_URL}/create`;
+
+export const PUNTOS_UPDATE_BY_CODE = `${API_BASE_URL}/update/`;
+
+export const PUNTOS_DELETE_BY_CODE = `${API_BASE_URL}/delete/`;
+
+
+
 /*SECCION DE REPORTES*/
 
 export const PUNTOS_REPORTS_FORMAT_EXCEL = `${API_BASE_URL}/reports`;
@@ -55,3 +66,4 @@ export const PUNTOS_LOAD_FILE = `${API_BASE_URL}/upload-excel`;
 /*SECCION DE DESCARGA DE PLANTILLAS*/
 
 export const PUNTOS_DOWNLOAD_TEMPLATE = `${API_BASE_URL}/download-template`;
+

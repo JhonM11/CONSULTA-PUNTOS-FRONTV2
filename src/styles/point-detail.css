@@ -1,0 +1,53 @@
+/* Grid de detalles */
+.point-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .point-detail-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .point-detail-field-full {
+    grid-column: 1 / -1;
+  }
+  
+  .point-detail-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .point-detail-field span {
+    font-size: 14px;
+    color: #111827;
+    word-break: break-word;
+  }
+  
+  /* Responsive mejorado */
+  @media (max-width: 1024px) {
+    .point-detail-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .point-detail-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  
+    /* Responsive para detalles */
+    .point-detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

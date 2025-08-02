@@ -1,0 +1,270 @@
+/* Formularios */
+.point-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.point-form {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 95%;
+  max-width: 1200px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+.point-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.point-form-header span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.point-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.point-close-btn:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.point-form-body {
+  padding: 24px;
+}
+
+.point-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.point-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.point-form-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Estilos para inputs (sin la flecha de select) */
+.point-form-field input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  background-color: white;
+  color: #111827;
+  /* Asegurarse de que no haya background-image ni appearance aquí */
+}
+
+.point-form-field input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.point-form-field input:disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Estilos para select (con flecha personalizada y apariencia mejorada) */
+.point-form-field select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  background-color: white;
+  color: #111827;
+  appearance: none; /* Elimina el estilo nativo del select */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%236b7280" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Flecha personalizada */
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px; /* Espacio para la flecha */
+  cursor: pointer;
+}
+
+.point-form-field select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.point-form-field select:disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Estilos para las opciones del select (limitado por el navegador) */
+.point-form-field select option {
+  background-color: white;
+  color: #111827;
+  padding: 10px 16px; /* Puede que no se aplique en todos los navegadores */
+}
+
+/* Estilos para el hover del select (en su estado cerrado) */
+.point-form-field select:hover {
+  border-color: #3b82f6;
+}
+
+/* Campo de texto completo para formularios */
+.point-form-field-full {
+  grid-column: 1 / -1;
+}
+
+.point-form-field textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.point-form-field textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.point-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.point-cancel-btn {
+  padding: 10px 20px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.point-cancel-btn:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.point-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.point-save-btn:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive mejorado */
+@media (max-width: 1024px) {
+  .point-form {
+    width: 90%;
+    max-width: 900px;
+  }
+
+  .point-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .point-form {
+    margin: 10px;
+    max-height: calc(95vh - 20px);
+    width: calc(100% - 20px);
+  }
+
+  .point-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .point-form-actions {
+    flex-direction: column;
+  }
+}
