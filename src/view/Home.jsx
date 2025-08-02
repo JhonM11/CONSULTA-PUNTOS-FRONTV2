@@ -9,6 +9,7 @@ import TipoConexion from "../components/TipoConexion"
 import Report from "../components/Reports"
 import LoadFile from "../components/LoadFile"
 import Point from "../components/Point"
+import Users from "../components/Users"
 import "../styles/home.css"
 
 
@@ -53,7 +54,7 @@ function Home() {
         {currentView === "reportes" && <Report />}
         {currentView === "LoadFile" && <LoadFile />}
         {currentView === "puntos" && <Point />}
-
+        {currentView === "usuarios" && <Users />}
             
         
         {/* Puedes seguir agregando más vistas así */}

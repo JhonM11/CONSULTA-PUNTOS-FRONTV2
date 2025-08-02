@@ -9,6 +9,18 @@ export const USER_SESSION_URL = `${API_BASE_URL}/users/mysession`;
 
 export const USER_CHANGE_PASSWD = `${API_BASE_URL}/users/change-passwd/`; 
 
+export const USER_CREATE = `${API_BASE_URL}/users/create`;
+
+export const USER_GET_ALL = `${API_BASE_URL}/users/listUsers`;
+
+export const USER_ACTIVATE_BY_CODE = `${API_BASE_URL}/users/activate/`;
+
+export const USER_INNACTIVATE_BY_CODE = `${API_BASE_URL}/users/inactivate/`;
+
+export const USER_RESET_PASSWD_BY_CODE = `${API_BASE_URL}/users/reset-password/`;
+
+export const USER_UPDATE_ROLE_BY_CODE = `${API_BASE_URL}/users/update-role`;
+
 /* ENDPOINT CENTROS DE COSTOS */
 
 export const CCOSTO_GET_ALL = `${API_BASE_URL}/centros-costos/list`;
