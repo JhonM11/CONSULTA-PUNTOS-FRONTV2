@@ -39,7 +39,7 @@ function LoginView() {
         setError('El servicio no está actualmente disponible');
       } else {
         setError(e.message);
-      }
+      }    
     } finally {
       setLoading(false);
     }
