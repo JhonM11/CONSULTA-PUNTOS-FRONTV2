@@ -20,9 +20,10 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/AppPuntosv2">
         <AppContent />
       </BrowserRouter>
+
     </AuthProvider>
   );
 }

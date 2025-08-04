@@ -1,5 +1,5 @@
 /* ENDPOINT  BASE */
-export const API_BASE_URL = "http://localhost:8080/api/v2/puntos";
+export const API_BASE_URL = "http://10.20.4.250:8081/api/v2/puntos";
 
 /* ENDPOINT  AUTH */
 
