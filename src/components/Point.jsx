@@ -45,7 +45,7 @@ function Point() {
   const [notification, setNotification] = useState({ message: "", type: "" })
   const [loading, setLoading] = useState(false)
 
-  const itemsPerPage = 10
+  const itemsPerPage = 5
 
   // Estados para los datos de selección
   const [zonas, setZonas] = useState([])
