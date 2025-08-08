@@ -27,10 +27,10 @@ export const getAllCcosto = async (token) => {
 
 
 
-  export const createCcosto = async (token, name) => {
+  export const createCcosto = async (token, name, zonaCode) => {
     try {
-      const url = `${CCOSTO_CREATE}?name=${encodeURIComponent(name)}`;
-      
+      const url = `${CCOSTO_CREATE}?name=${encodeURIComponent(name)}&zonaCode=${encodeURIComponent(zonaCode)}`;
+  
       const response = await fetch(url, {
         method: 'POST',
         headers: {
