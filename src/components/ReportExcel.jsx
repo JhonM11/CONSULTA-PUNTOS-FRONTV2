@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useAuth } from "./AuthContext"
 import { FiDownload } from "react-icons/fi"
 import { getAllTipoConexiones } from "../services/tipoconexionesService"
@@ -11,38 +11,37 @@ import "../styles/reportsexcel.css"
 function ReportExcel() {
   const { token } = useAuth()
 
-  // Estados para los datos de cada contenedor
+  // Datos base
   const [zonas, setZonas] = useState([])
   const [centrosCosto, setCentrosCosto] = useState([])
   const [tipoConexiones, setTipoConexiones] = useState([])
 
-  // Estados para controlar qué elementos están activos
+  // Selecciones activas
   const [activeZonas, setActiveZonas] = useState([])
   const [activeCentrosCosto, setActiveCentrosCosto] = useState([])
   const [activeTipoConexiones, setActiveTipoConexiones] = useState([])
 
-  // Estado para el filtro global
+  // Global sin filtro
   const [globalNoFilter, setGlobalNoFilter] = useState(true)
 
-  // Estados para notificaciones y loading
+  // UI
   const [notification, setNotification] = useState({ message: "", type: "" })
   const [loading, setLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
-  // Cargar datos al montar el componente
+  const str = (v) => String(v ?? "")
+
+  // Cargar datos al montar
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return
-
       setLoading(true)
       try {
-        // Cargar datos en paralelo
         const [zonasData, ccostoData, tipoConexionesData] = await Promise.all([
           getAllZonas(token),
           getAllCcosto(token),
           getAllTipoConexiones(token),
         ])
-
         setZonas(zonasData)
         setCentrosCosto(ccostoData)
         setTipoConexiones(tipoConexionesData)
@@ -53,30 +52,53 @@ function ReportExcel() {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [token])
 
-  // Función para mostrar notificaciones
-  const showNotification = (message, type) => {
-    setNotification({ message, type })
+  // Notificaciones
+  const showNotification = (message, type) => setNotification({ message, type })
+  const closeNotification = () => setNotification({ message: "", type: "" })
+
+  // Global filter toggle
+  const checkGlobalFilter = (zonasSel, centrosSel, tiposSel) => {
+    const hasSelections = zonasSel.length > 0 || centrosSel.length > 0 || tiposSel.length > 0
+    if (hasSelections && globalNoFilter) setGlobalNoFilter(false)
   }
 
-  // Función para cerrar notificaciones
-  const closeNotification = () => {
-    setNotification({ message: "", type: "" })
+  const toggleGlobalNoFilter = () => {
+    if (globalNoFilter) {
+      setGlobalNoFilter(false)
+    } else {
+      setActiveZonas([])
+      setActiveCentrosCosto([])
+      setActiveTipoConexiones([])
+      setGlobalNoFilter(true)
+    }
   }
 
-  // Funciones para manejar los toggles de filtros
+  // ===== Lógica de filtrado pedida =====
+  // Zonas → filtran Centros; seleccionar Centros NO oculta ni altera Zonas.
   const toggleZona = (code) => {
     setActiveZonas((prev) => {
-      const newActive = prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code]
-      checkGlobalFilter(newActive, activeCentrosCosto, activeTipoConexiones)
-      return newActive
+      const exists = prev.includes(code)
+      const newActiveZonas = exists ? prev.filter((c) => c !== code) : [...prev, code]
+
+      // Al cambiar zonas, quitar de la selección los centros que ya no pertenecen
+      setActiveCentrosCosto((prevCC) => {
+        if (newActiveZonas.length === 0) return prevCC // sin zonas => no depuramos
+        return prevCC.filter((ccCode) => {
+          const centro = centrosCosto.find((c) => str(c.code) === str(ccCode))
+          return centro ? newActiveZonas.includes(centro.zonaCode) : false
+        })
+      })
+
+      checkGlobalFilter(newActiveZonas, activeCentrosCosto, activeTipoConexiones)
+      return newActiveZonas
     })
   }
 
   const toggleCentroCosto = (code) => {
+    // Solo alterna selección; NO toca zonas ni visibilidad de zonas
     setActiveCentrosCosto((prev) => {
       const newActive = prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code]
       checkGlobalFilter(activeZonas, newActive, activeTipoConexiones)
@@ -92,25 +114,16 @@ function ReportExcel() {
     })
   }
 
-  const checkGlobalFilter = (zonas, centros, tipos) => {
-    const hasSelections = zonas.length > 0 || centros.length > 0 || tipos.length > 0
-    if (hasSelections && globalNoFilter) {
-      setGlobalNoFilter(false)
+  // Listas visibles en UI
+  const visibleZonas = useMemo(() => zonas, [zonas]) // Zonas siempre visibles (no se ocultan)
+  const visibleCentrosCosto = useMemo(() => {
+    if (activeZonas.length > 0) {
+      return centrosCosto.filter((c) => activeZonas.includes(c.zonaCode))
     }
-  }
+    return centrosCosto
+  }, [activeZonas, centrosCosto])
 
-  const toggleGlobalNoFilter = () => {
-    if (globalNoFilter) {
-      setGlobalNoFilter(false)
-    } else {
-      setActiveZonas([])
-      setActiveCentrosCosto([])
-      setActiveTipoConexiones([])
-      setGlobalNoFilter(true)
-    }
-  }
-
-  // Función para generar y descargar el reporte
+  // Descargar reporte
   const handleDownloadReport = async () => {
     setDownloadLoading(true)
     try {
@@ -118,12 +131,7 @@ function ReportExcel() {
       const centroCostoCode = activeCentrosCosto.join(",")
       const tipoConexionCode = activeTipoConexiones.join(",")
 
-      await getReportExcel(token, {
-        tipoConexionCode,
-        zonaCode,
-        centroCostoCode,
-      })
-
+      await getReportExcel(token, { tipoConexionCode, zonaCode, centroCostoCode })
       showNotification("Reporte descargado exitosamente", "success")
     } catch (error) {
       console.error("Error al descargar reporte:", error)
@@ -147,14 +155,14 @@ function ReportExcel() {
       <div className="report-excel-container">
         {/* Contenedores de filtros */}
         <div className="report-excel-filters-container">
-          {/* Contenedor de Zonas */}
+          {/* Zonas */}
           <div className="report-excel-filter-card">
             <div className="report-excel-filter-header">
               <h3>Zonas</h3>
               <span className="report-excel-filter-count">{activeZonas.length} seleccionadas</span>
             </div>
             <div className="report-excel-filter-list">
-              {zonas.map((zona) => (
+              {visibleZonas.map((zona) => (
                 <div key={zona.code} className="report-excel-filter-item">
                   <span className="report-excel-filter-name">{zona.name}</span>
                   <label className="report-excel-toggle">
@@ -167,18 +175,18 @@ function ReportExcel() {
                   </label>
                 </div>
               ))}
-              {zonas.length === 0 && <div className="report-excel-filter-empty">No hay zonas disponibles</div>}
+              {visibleZonas.length === 0 && <div className="report-excel-filter-empty">No hay zonas disponibles</div>}
             </div>
           </div>
 
-          {/* Contenedor de Centros de Costo */}
+          {/* Centros de Costo */}
           <div className="report-excel-filter-card">
             <div className="report-excel-filter-header">
               <h3>Centros de Costo</h3>
               <span className="report-excel-filter-count">{activeCentrosCosto.length} seleccionados</span>
             </div>
             <div className="report-excel-filter-list">
-              {centrosCosto.map((centro) => (
+              {visibleCentrosCosto.map((centro) => (
                 <div key={centro.code} className="report-excel-filter-item">
                   <span className="report-excel-filter-name">{centro.name}</span>
                   <label className="report-excel-toggle">
@@ -191,13 +199,13 @@ function ReportExcel() {
                   </label>
                 </div>
               ))}
-              {centrosCosto.length === 0 && (
+              {visibleCentrosCosto.length === 0 && (
                 <div className="report-excel-filter-empty">No hay centros de costo disponibles</div>
               )}
             </div>
           </div>
 
-          {/* Contenedor de Tipo Conexiones */}
+          {/* Tipo Conexiones */}
           <div className="report-excel-filter-card">
             <div className="report-excel-filter-header">
               <h3>Tipo Conexiones</h3>
@@ -263,7 +271,7 @@ function ReportExcel() {
         </div>
       </div>
 
-      {/* Componente de notificación */}
+      {/* Notificación */}
       <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
     </>
   )
