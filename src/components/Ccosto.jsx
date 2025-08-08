@@ -275,7 +275,7 @@ function Ccosto() {
       <tr>
         <th>Código</th>
         <th>Nombre</th>
-        <th>Zona</th> {/* 👈 solo el nombre */}
+        <th>Zona</th>
         <th>Acción</th>
       </tr>
     </thead>
@@ -284,7 +284,7 @@ function Ccosto() {
         <tr key={item.code}>
           <td>{item.code}</td>
           <td>{item.name}</td>
-          <td>{item.zonaName ?? '-'}</td> {/* 👈 solo nombre */}
+          <td>{item.zonaName ?? '-'}</td> 
           <td>
             <button
               className="ccosto-edit-btn"

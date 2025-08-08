@@ -1,8 +1,42 @@
 import { FiX, FiSave } from "react-icons/fi"
-// Eliminamos las importaciones de shadcn/ui Select
 import "../styles/point-form.css"
 
 function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexiones, onSave, onClose }) {
+  const strEq = (a, b) => String(a ?? "") === String(b ?? "")
+
+  const selectedCentro = centrosCosto.find(c => strEq(c.code, editData.centroCostoCode))
+  const forcedZonaCodeFromCentro = selectedCentro?.zonaCode
+
+  const availableZonas = forcedZonaCodeFromCentro
+    ? zonas.filter(z => strEq(z.code, forcedZonaCodeFromCentro))
+    : zonas
+
+  const effectiveZonaCode = forcedZonaCodeFromCentro ?? editData.zonaCode
+  const availableCentros = effectiveZonaCode
+    ? centrosCosto.filter(c => strEq(c.zonaCode, effectiveZonaCode))
+    : centrosCosto
+
+  const handleZonaChange = (e) => {
+    const newZonaCode = e.target.value
+    const centroOk = selectedCentro && strEq(selectedCentro.zonaCode, newZonaCode)
+    setEditData({
+      ...editData,
+      zonaCode: newZonaCode,
+      centroCostoCode: centroOk ? editData.centroCostoCode : ""
+    })
+  }
+
+  const handleCentroChange = (e) => {
+    const newCentroCode = e.target.value
+    const centro = centrosCosto.find(c => strEq(c.code, newCentroCode))
+    const zonaDelCentro = centro?.zonaCode ? String(centro.zonaCode) : ""
+    setEditData({
+      ...editData,
+      centroCostoCode: newCentroCode,
+      zonaCode: zonaDelCentro
+    })
+  }
+
   return (
     <div className="point-form-overlay">
       <div className="point-form">
@@ -12,12 +46,14 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
             <FiX />
           </button>
         </div>
+
         <div className="point-form-body">
           <div className="point-form-grid">
             <div className="point-form-field">
               <label>Código</label>
               <input type="text" value={editData.codigo || ""} disabled />
             </div>
+
             <div className="point-form-field">
               <label>Nombre *</label>
               <input
@@ -27,6 +63,7 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
                 placeholder="Nombre del punto"
               />
             </div>
+
             <div className="point-form-field">
               <label>Tecnología</label>
               <input
@@ -36,6 +73,8 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
                 placeholder="Tecnología"
               />
             </div>
+
+            {/* IPs / equipos (sin cambios)… */}
             <div className="point-form-field">
               <label>IP Radio</label>
               <input
@@ -117,6 +156,8 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
                 placeholder="PC Admin 3"
               />
             </div>
+
+            {/* Tipo conexión */}
             <div className="point-form-field">
               <label>Tipo de Conexión</label>
               <select
@@ -124,41 +165,47 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
                 onChange={(e) => setEditData({ ...editData, tipoConexionCode: e.target.value })}
               >
                 <option value="">Seleccionar tipo de conexión</option>
-                {tipoConexiones.map((tipo) => (
-                  <option key={tipo.code} value={tipo.code}>
-                    {tipo.name}
+                {tipoConexiones.map((t) => (
+                  <option key={t.code} value={t.code}>
+                    {t.name}
                   </option>
                 ))}
               </select>
             </div>
+
+            {/* ZONA */}
             <div className="point-form-field">
               <label>Zona</label>
               <select
                 value={editData.zonaCode || ""}
-                onChange={(e) => setEditData({ ...editData, zonaCode: e.target.value })}
+                onChange={handleZonaChange}
               >
                 <option value="">Seleccionar zona</option>
-                {zonas.map((zona) => (
-                  <option key={zona.code} value={zona.code}>
-                    {zona.name}
+                {availableZonas.map((z) => (
+                  <option key={z.code} value={z.code}>
+                    {z.name}
                   </option>
                 ))}
               </select>
             </div>
+
+            {/* CENTRO DE COSTO */}
             <div className="point-form-field">
               <label>Centro de Costo</label>
               <select
                 value={editData.centroCostoCode || ""}
-                onChange={(e) => setEditData({ ...editData, centroCostoCode: e.target.value })}
+                onChange={handleCentroChange}
               >
                 <option value="">Seleccionar centro de costo</option>
-                {centrosCosto.map((centro) => (
-                  <option key={centro.code} value={centro.code}>
-                    {centro.name}
+                {availableCentros.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
                   </option>
                 ))}
               </select>
             </div>
+
+            {/* Observación / Nota */}
             <div className="point-form-field point-form-field-full">
               <label>Observación</label>
               <textarea
@@ -178,6 +225,7 @@ function PointEditForm({ editData, setEditData, zonas, centrosCosto, tipoConexio
               />
             </div>
           </div>
+
           <div className="point-form-actions">
             <button className="point-cancel-btn" onClick={onClose}>
               Cancelar
