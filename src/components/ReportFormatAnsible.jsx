@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useAuth } from "./AuthContext"
 import { FiDownload } from "react-icons/fi"
 import { getAllTipoConexiones } from "../services/tipoconexionesService"
@@ -11,41 +11,40 @@ import "../styles/reportsformatansible.css"
 function ReportFormatAnsible() {
   const { token } = useAuth()
 
-  // Estados para los datos de cada contenedor
+  // Datos base
   const [zonas, setZonas] = useState([])
   const [centrosCosto, setCentrosCosto] = useState([])
   const [tipoConexiones, setTipoConexiones] = useState([])
 
-  // Estados para controlar qué elementos están activos
+  // Selecciones activas
   const [activeZonas, setActiveZonas] = useState([])
   const [activeCentrosCosto, setActiveCentrosCosto] = useState([])
   const [activeTipoConexiones, setActiveTipoConexiones] = useState([])
 
-  // Estado para el filtro global
+  // Sin filtro global
   const [globalNoFilter, setGlobalNoFilter] = useState(true)
 
-  // Estado para el nombre del archivo
+  // Nombre del archivo
   const [filename, setFilename] = useState("")
 
-  // Estados para notificaciones y loading
+  // UI
   const [notification, setNotification] = useState({ message: "", type: "" })
   const [loading, setLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
 
-  // Cargar datos al montar el componente
+  const str = (v) => String(v ?? "")
+
+  // Cargar datos al montar
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return
-
       setLoading(true)
       try {
-        // Cargar datos en paralelo
         const [zonasData, ccostoData, tipoConexionesData] = await Promise.all([
           getAllZonas(token),
           getAllCcosto(token),
           getAllTipoConexiones(token),
         ])
-
         setZonas(zonasData)
         setCentrosCosto(ccostoData)
         setTipoConexiones(tipoConexionesData)
@@ -56,30 +55,52 @@ function ReportFormatAnsible() {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [token])
 
-  // Función para mostrar notificaciones
-  const showNotification = (message, type) => {
-    setNotification({ message, type })
+  // Notificaciones
+  const showNotification = (message, type) => setNotification({ message, type })
+  const closeNotification = () => setNotification({ message: "", type: "" })
+
+  // Global filter
+  const checkGlobalFilter = (zonasSel, centrosSel, tiposSel) => {
+    const hasSelections = zonasSel.length > 0 || centrosSel.length > 0 || tiposSel.length > 0
+    if (hasSelections && globalNoFilter) setGlobalNoFilter(false)
   }
 
-  // Función para cerrar notificaciones
-  const closeNotification = () => {
-    setNotification({ message: "", type: "" })
+  const toggleGlobalNoFilter = () => {
+    if (globalNoFilter) {
+      setGlobalNoFilter(false)
+    } else {
+      setActiveZonas([])
+      setActiveCentrosCosto([])
+      setActiveTipoConexiones([])
+      setGlobalNoFilter(true)
+    }
   }
 
-  // Funciones para manejar los toggles de filtros
+  // ===== LÓGICA DE FILTRADO: Zonas → filtran Centros; Centros no alteran Zonas =====
   const toggleZona = (code) => {
     setActiveZonas((prev) => {
-      const newActive = prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code]
-      checkGlobalFilter(newActive, activeCentrosCosto, activeTipoConexiones)
-      return newActive
+      const exists = prev.includes(code)
+      const newActiveZonas = exists ? prev.filter((c) => c !== code) : [...prev, code]
+
+      // Al cambiar zonas, quitar de la selección los centros que ya no pertenecen
+      setActiveCentrosCosto((prevCC) => {
+        if (newActiveZonas.length === 0) return prevCC // sin zonas => no depuramos
+        return prevCC.filter((ccCode) => {
+          const centro = centrosCosto.find((c) => str(c.code) === str(ccCode))
+          return centro ? newActiveZonas.includes(centro.zonaCode) : false
+        })
+      })
+
+      checkGlobalFilter(newActiveZonas, activeCentrosCosto, activeTipoConexiones)
+      return newActiveZonas
     })
   }
 
   const toggleCentroCosto = (code) => {
+    // Solo alterna selección; NO toca zonas ni visibilidad de zonas
     setActiveCentrosCosto((prev) => {
       const newActive = prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code]
       checkGlobalFilter(activeZonas, newActive, activeTipoConexiones)
@@ -95,25 +116,16 @@ function ReportFormatAnsible() {
     })
   }
 
-  const checkGlobalFilter = (zonas, centros, tipos) => {
-    const hasSelections = zonas.length > 0 || centros.length > 0 || tipos.length > 0
-    if (hasSelections && globalNoFilter) {
-      setGlobalNoFilter(false)
+  // Listas visibles en UI
+  const visibleZonas = useMemo(() => zonas, [zonas]) // Zonas siempre visibles
+  const visibleCentrosCosto = useMemo(() => {
+    if (activeZonas.length > 0) {
+      return centrosCosto.filter((c) => activeZonas.includes(c.zonaCode))
     }
-  }
+    return centrosCosto
+  }, [activeZonas, centrosCosto])
 
-  const toggleGlobalNoFilter = () => {
-    if (globalNoFilter) {
-      setGlobalNoFilter(false)
-    } else {
-      setActiveZonas([])
-      setActiveCentrosCosto([])
-      setActiveTipoConexiones([])
-      setGlobalNoFilter(true)
-    }
-  }
-
-  // Función para generar y descargar el reporte
+  // Descargar
   const handleDownloadReport = async () => {
     setDownloadLoading(true)
     try {
@@ -149,16 +161,16 @@ function ReportFormatAnsible() {
   return (
     <>
       <div className="report-ansible-container">
-        {/* Contenedores de filtros */}
+        {/* Filtros */}
         <div className="report-ansible-filters-container">
-          {/* Contenedor de Zonas */}
+          {/* Zonas */}
           <div className="report-ansible-filter-card">
             <div className="report-ansible-filter-header">
               <h3>Zonas</h3>
               <span className="report-ansible-filter-count">{activeZonas.length} seleccionadas</span>
             </div>
             <div className="report-ansible-filter-list">
-              {zonas.map((zona) => (
+              {visibleZonas.map((zona) => (
                 <div key={zona.code} className="report-ansible-filter-item">
                   <span className="report-ansible-filter-name">{zona.name}</span>
                   <label className="report-ansible-toggle">
@@ -171,18 +183,18 @@ function ReportFormatAnsible() {
                   </label>
                 </div>
               ))}
-              {zonas.length === 0 && <div className="report-ansible-filter-empty">No hay zonas disponibles</div>}
+              {visibleZonas.length === 0 && <div className="report-ansible-filter-empty">No hay zonas disponibles</div>}
             </div>
           </div>
 
-          {/* Contenedor de Centros de Costo */}
+          {/* Centros de Costo */}
           <div className="report-ansible-filter-card">
             <div className="report-ansible-filter-header">
               <h3>Centros de Costo</h3>
               <span className="report-ansible-filter-count">{activeCentrosCosto.length} seleccionados</span>
             </div>
             <div className="report-ansible-filter-list">
-              {centrosCosto.map((centro) => (
+              {visibleCentrosCosto.map((centro) => (
                 <div key={centro.code} className="report-ansible-filter-item">
                   <span className="report-ansible-filter-name">{centro.name}</span>
                   <label className="report-ansible-toggle">
@@ -195,13 +207,13 @@ function ReportFormatAnsible() {
                   </label>
                 </div>
               ))}
-              {centrosCosto.length === 0 && (
+              {visibleCentrosCosto.length === 0 && (
                 <div className="report-ansible-filter-empty">No hay centros de costo disponibles</div>
               )}
             </div>
           </div>
 
-          {/* Contenedor de Tipo Conexiones */}
+          {/* Tipo Conexiones */}
           <div className="report-ansible-filter-card">
             <div className="report-ansible-filter-header">
               <h3>Tipo Conexiones</h3>
@@ -228,7 +240,7 @@ function ReportFormatAnsible() {
           </div>
         </div>
 
-        {/* Campo de texto para nombre del archivo */}
+        {/* Nombre de archivo */}
         <div className="report-ansible-filename-section">
           <div className="report-ansible-filename-field">
             <label className="report-ansible-filename-label">Nombre del archivo</label>
@@ -242,7 +254,7 @@ function ReportFormatAnsible() {
           </div>
         </div>
 
-        {/* Toggle global "Sin filtro / todo" */}
+        {/* Toggle global */}
         <div className="report-ansible-global-filter">
           <div className="report-ansible-global-filter-item">
             <span className="report-ansible-global-filter-name">Todos los puntos</span>
@@ -253,7 +265,7 @@ function ReportFormatAnsible() {
           </div>
         </div>
 
-        {/* Botón de descarga */}
+        {/* Descargar */}
         <div className="report-ansible-download-section">
           <button
             className="report-ansible-download-btn"
@@ -281,7 +293,7 @@ function ReportFormatAnsible() {
         </div>
       </div>
 
-      {/* Componente de notificación */}
+      {/* Notificación */}
       <Notification message={notification.message} type={notification.type} onClose={closeNotification} />
     </>
   )
